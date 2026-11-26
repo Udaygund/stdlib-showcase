@@ -52,7 +52,3 @@ stdlib packages are CommonJS. They are bundled for the browser with esbuild. One
 
 - The two groups are treated as independent samples. If every "before" score is paired with an "after" score (the same quiz retaken), a paired test would be more appropriate.
 - With very few quizzes, neither test can tell much apart, and the page says so instead of declaring a winner.
-
-## How this was built
-
-This project was written with Claude Code (an AI coding assistant), including the statistics module, the tests, the page and this README. It is meant as a reference for learning stdlib, not as original work by the repository owner.
