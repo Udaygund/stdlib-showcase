@@ -2,5 +2,13 @@
     "private": true,
     "dependencies": {
         "@stdlib/stdlib": "^0.4.1"
+    },
+    "devDependencies": {
+        "esbuild": "^0.25.0"
+    },
+    "scripts": {
+        "build": "esbuild src/main.js --bundle --minify --target=es2019 --alias:buffer=./src/shims/buffer.js --outfile=dist/app.js",
+        "test": "node --test test/*.test.js",
+        "start": "npm run build && npx --yes http-server@14.1.1 -p 8080 -c-1 ."
     }
 }

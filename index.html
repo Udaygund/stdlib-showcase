@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Did my study method work?</title>
+	<meta name="description" content="Compare quiz scores before and after a study method, and see whether the difference is real or luck. Built with stdlib.">
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232f6f5e'/%3E%3Cpath d='M5 24h4V16H5zm6 0h4V9h-4zm6 0h4V13h-4zm6 0h4V19h-4z' fill='%23fffdf8'/%3E%3C/svg%3E">
+	<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+	<main class="page">
+		<header class="intro">
+			<p class="eyebrow">A small statistics explainer, built with <a href="https://stdlib.io">stdlib</a></p>
+			<h1>Did my study method actually work?</h1>
+			<p class="lede">You switched to flashcards (or spaced repetition, or a new app) and your quiz scores went up. Was it the method, or would scores like these turn up by luck anyway? Paste both sets of scores and find out.</p>
+		</header>
+
+		<section class="inputs" aria-label="Scores">
+			<div class="field">
+				<label for="before">Scores <strong>before</strong></label>
+				<textarea id="before" rows="4" spellcheck="false"></textarea>
+			</div>
+			<div class="field">
+				<label for="after">Scores <strong>after</strong></label>
+				<textarea id="after" rows="4" spellcheck="false"></textarea>
+			</div>
+			<div class="controls">
+				<label for="alpha">Significance level</label>
+				<select id="alpha">
+					<option value="0.01">1%</option>
+					<option value="0.05" selected>5%</option>
+					<option value="0.1">10%</option>
+				</select>
+				<button id="example" type="button" class="ghost">Load an example</button>
+				<button id="noeffect" type="button" class="ghost">Example with no real effect</button>
+			</div>
+			<p id="error" class="error" role="alert" hidden></p>
+		</section>
+
+		<section id="results" class="results" hidden>
+			<div class="verdict" id="verdict"></div>
+
+			<div class="cards">
+				<article class="card">
+					<h2>1. The raw numbers</h2>
+					<table class="summary">
+						<thead><tr><th></th><th>Before</th><th>After</th></tr></thead>
+						<tbody id="summary"></tbody>
+					</table>
+				</article>
+
+				<article class="card">
+					<h2>2. What would luck look like?</h2>
+					<p class="note">If the method did nothing, “before” and “after” are just labels. We shuffled them <span id="trials"></span> times and recorded the difference in averages each time. The marker is what you actually got.</p>
+					<canvas id="perm" width="640" height="260" aria-label="Histogram of differences produced by chance"></canvas>
+					<p class="caption" id="permcaption"></p>
+				</article>
+
+				<article class="card">
+					<h2>3. The textbook test</h2>
+					<p class="note">Welch’s t-test turns the same question into a single number, <em>t</em>, and compares it against the t-distribution. Results beyond the shaded cut-offs count as significant.</p>
+					<canvas id="tdist" width="640" height="260" aria-label="Student's t distribution with your test statistic"></canvas>
+					<p class="caption" id="tcaption"></p>
+				</article>
+			</div>
+
+			<details class="howto">
+				<summary>How this is computed</summary>
+				<ul>
+					<li>Summaries: <code>@stdlib/stats/incr/summary</code></li>
+					<li>Welch two-sample t-test: <code>@stdlib/stats/ttest2</code></li>
+					<li>Label shuffling (seeded, reproducible): <code>@stdlib/random/shuffle</code></li>
+					<li>Group means for each shuffle: <code>@stdlib/stats/strided/dmean</code></li>
+					<li>t-distribution curve and cut-offs: <code>@stdlib/stats/base/dists/t/pdf</code>, <code>…/t/quantile</code></li>
+				</ul>
+			</details>
+		</section>
+
+		<footer class="foot">
+			<p>Everything runs in your browser; nothing is uploaded. Source and notes in the README.</p>
+		</footer>
+	</main>
+	<script src="dist/app.js"></script>
+</body>
+</html>
